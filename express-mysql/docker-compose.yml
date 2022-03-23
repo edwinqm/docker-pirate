@@ -3,6 +3,7 @@ version: "3.8"
 services:
   express_rest_api:
     container_name: my_express_rest_api
+    # Image builder with Dockerfile
     build: ./app/
     environment:
       - DB_PORT=3306
@@ -22,7 +23,7 @@ services:
     container_name: my_mysql_db
     image: mysql:latest
     # Important command to allow legacy authentications for old versions
-    command: --default-authentication-plugin=mysql_native_password
+    # command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
       MYSQL_PASSWORD: root
