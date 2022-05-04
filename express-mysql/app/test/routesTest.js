@@ -249,6 +249,24 @@ describe("Test routes for REST-API", () => {
           done();
         });
     });
+    
+    it("Error PUT should update a developer not exists", (done) => {
+      function fakeUpdateDeveloper(req, res) {
+        res.status(404).json(fakeUpdateDeveloperGoodResponse);
+      }
+      sinon.restore();
+      sinon.replace(model, "updateDeveloper", fakeUpdateDeveloper);
+
+      chai
+        .request(server)
+        .post("/developers/cc/12345")
+        .set("content-type", "application/json")
+        .send(fakeDeveloper1)
+        .end((err, response) => {
+          response.should.have.status(404);
+          done();
+        });
+    });
   });
 
   /**
