@@ -125,6 +125,30 @@ describe("Test routes for REST-API", () => {
           done();
         });
     });
+
+    it("It should GET a message with one developer", (done) => {
+      function fakeGetDeveloper(req, res) {
+        res.status(200).json([fakeDeveloper1]);
+      }
+
+      sinon.replace(model, "getDeveloperByIdParams", fakeGetDeveloper);
+
+      chai
+        .request(server)
+        .get("/developers/cc/007")
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.body.should.have.lengthOf(1);
+          response.body[0].should.have.property("id");
+          response.body[0].should.have.property("id_type");
+          response.body[0].should.have.property("id_value");
+          response.body[0].should.have.property("name");
+          response.body[0].should.have.property("lastname");
+          response.body[0].should.have.property("area");
+          response.body[0].should.have.property("age");
+          done();
+        });
+    });
   });
 
   /**
